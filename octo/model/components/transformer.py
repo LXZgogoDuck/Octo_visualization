@@ -156,6 +156,7 @@ class Encoder1DBlock(nn.Module):
         # Attention block.
         assert inputs.ndim == 3, f"Expected (batch, seq, hidden) got {inputs.shape}"
         x = nn.LayerNorm(dtype=self.dtype)(inputs)
+        ###############################################################################################
         x = nn.MultiHeadDotProductAttention(
             dtype=self.dtype,
             kernel_init=nn.initializers.xavier_uniform(),
@@ -164,6 +165,10 @@ class Encoder1DBlock(nn.Module):
             dropout_rate=self.attention_dropout_rate,
             num_heads=self.num_heads,
         )(x, x, mask=attention_mask, sow_weights=True)
+        # Here, sow_weights = True ->  Flax automatically stores attention weights inside states['intermediates']
+        ###############################################################################################
+
+
         x = nn.Dropout(rate=self.dropout_rate)(x, deterministic=deterministic)
         x = x + inputs
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SimplerEnv" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SimplerEnv/ManiSkill2_real2sim" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SimplerEnv/SimplerEnv" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/SimplerEnv/octo" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/act" vcs="Git" />
+  </component>
+</project>

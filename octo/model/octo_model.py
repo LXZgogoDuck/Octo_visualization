@@ -28,39 +28,39 @@ class OctoModel:
 
     Usage for inference:
 
-        >>> model = OctoModel.load_pretrained(checkpoint_dir)
-        >>> tasks = model.create_tasks(texts=["go to the red room"])
-        >>> # or tasks = model.create_tasks(goals={"image_primary": goal_images})
-        >>> actions = model.sample_actions(observations, tasks, rng=jax.random.PRNGKey(0))
-        >>> # Note: these are normalized actions (processed to mean 0 and std 1). To get correct actions
-        >>> # for a particular embodiment, you must additionally specify unnormalization statistics.
-        >>> # For example, to get actions for one of Octo's pretraining datasets:
-        >>> actions = model.sample_actions(observations, tasks, rng=jax.random.PRNGKey(0),
-        >>>     unnormalization_statistics=model.dataset_statistics["DATASET_NAME_HERE"]["action"]
-        >>> )
+        # >>> model = OctoModel.load_pretrained(checkpoint_dir)
+        # >>> tasks = model.create_tasks(texts=["go to the red room"])
+        # >>> # or tasks = model.create_tasks(goals={"image_primary": goal_images})
+        # >>> actions = model.sample_actions(observations, tasks, rng=jax.random.PRNGKey(0))
+        # >>> # Note: these are normalized actions (processed to mean 0 and std 1). To get correct actions
+        # >>> # for a particular embodiment, you must additionally specify unnormalization statistics.
+        # >>> # For example, to get actions for one of Octo's pretraining datasets:
+        # >>> actions = model.sample_actions(observations, tasks, rng=jax.random.PRNGKey(0),
+        # >>>     unnormalization_statistics=model.dataset_statistics["DATASET_NAME_HERE"]["action"]
+        # >>> )
 
     Usage for finetuning:
 
-        >>> model = OctoModel.load_pretrained(checkpoint_dir)
-        >>> train_state = octo.utils.train_utils.TrainState.create(
-            rng=jax.random.PRNGKey(0),
-            model=model,
-            tx=optax.adamw(...)
-        )
-        >>> # access params through train_state.model.params
-        >>> train_state, metrics = your_update_function(train_state, batch)
-        >>> # when it's time to save (note that this only saves the model parameters,
-        >>> # not the full optimizer state)
-        >>> train_state.model.save_pretrained(step, save_dir)
+        # >>> model = OctoModel.load_pretrained(checkpoint_dir)
+        # >>> train_state = octo.utils.train_utils.TrainState.create(
+        #     rng=jax.random.PRNGKey(0),
+        #     model=model,
+        #     tx=optax.adamw(...)
+        # )
+        # >>> # access params through train_state.model.params
+        # >>> train_state, metrics = your_update_function(train_state, batch)
+        # >>> # when it's time to save (note that this only saves the model parameters,
+        # >>> # not the full optimizer state)
+        # >>> train_state.model.save_pretrained(step, save_dir)
 
     Usage for pretraining:
 
-        >>> model = OctoModel.from_config(
-                config,
-                example_batch,
-                text_processor
-            )  # initializes params
-        >>> # Continue as in finetuning example
+        # >>> model = OctoModel.from_config(
+        #         config,
+        #         example_batch,
+        #         text_processor
+        #     )  # initializes params
+        # >>> # Continue as in finetuning example
 
     See full usage examples in train.py and finetune.py.
 
@@ -168,15 +168,19 @@ class OctoModel:
             mutable=['intermediates'],
         )
         attention_weights = states['intermediates']['octo_transformer']['BlockTransformer_0']['Transformer_0']
-        action_attention_weights = {'mean': [], 'max': []}
+        action_attention_weights = {'mean': [], 'max': [], 'all': []}
         for i in range(12):
             # attention map shape: batch_size * head_num * token_num * token_num
-            # shape of w: batch_size * head_num * image_token_num (256)
+            # shape of w: batch_size * head_num * image_token_num (256) **** no!!!
+            ##########################################################################################
+            ########## shape of w: (H, #image_token_num) ############
             w = attention_weights[f'encoderblock_{i}']['MultiHeadDotProductAttention_0']['attention_weights'][0][:, :, -1, -(1 + 16 + 256):-(1 + 16)]
             w_mean = w.mean(axis=1)
             w_max = w.max(axis=1)
             action_attention_weights['mean'].append(w_mean)
             action_attention_weights['max'].append(w_max)
+            action_attention_weights['all'].append(w)
+
         return out, action_attention_weights
 
 
