@@ -1,0 +1,16 @@
+{
+  "os": "macOS-15.3-arm64-arm-64bit",
+  "python": "CPython 3.10.9",
+  "startedAt": "2025-02-18T04:30:06.030238Z",
+  "program": "/Users/fairyliu/PycharmProjects/HN-LoRA1/examples/02_finetune_new_observation_action.py",
+  "codePath": "examples/02_finetune_new_observation_action.py",
+  "git": {
+    "remote": "https://github.com/MasterXiong/HN-LoRA.git",
+    "commit": "5bd4dc3fad253fad87ecbeabc4b1fef5d02332e0"
+  },
+  "email": "122090346@link.cuhk.edu.cn",
+  "root": "/Users/fairyliu/PycharmProjects/HN-LoRA1/examples",
+  "host": "XuanzhuodeMacBook-Pro-6.local",
+  "executable": "/Users/fairyliu/miniconda3/bin/python",
+  "codePathLocal": "02_finetune_new_observation_action.py"
+}

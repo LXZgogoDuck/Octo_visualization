@@ -1,0 +1,25 @@
+I0218 04:30:06.851834 8297744448 02_finetune_new_observation_action.py:59] Loading pre-trained model...
+Traceback (most recent call last):
+  File "/Users/fairyliu/PycharmProjects/HN-LoRA1/examples/02_finetune_new_observation_action.py", line 200, in <module>
+    app.run(main)
+  File "/Users/fairyliu/miniconda3/lib/python3.10/site-packages/absl/app.py", line 308, in run
+    _run_main(main, args)
+  File "/Users/fairyliu/miniconda3/lib/python3.10/site-packages/absl/app.py", line 254, in _run_main
+    sys.exit(main(argv))
+  File "/Users/fairyliu/PycharmProjects/HN-LoRA1/examples/02_finetune_new_observation_action.py", line 60, in main
+    pretrained_model = OctoModel.load_pretrained(FLAGS.pretrained_path)
+  File "/Users/fairyliu/PycharmProjects/HN-LoRA1/octo/model/octo_model.py", line 278, in load_pretrained
+    if checkpoint_path.startswith("hf://"):
+AttributeError: 'NoneType' object has no attribute 'startswith'
+Traceback (most recent call last):
+  File "/Users/fairyliu/PycharmProjects/HN-LoRA1/examples/02_finetune_new_observation_action.py", line 200, in <module>
+    app.run(main)
+  File "/Users/fairyliu/miniconda3/lib/python3.10/site-packages/absl/app.py", line 308, in run
+    _run_main(main, args)
+  File "/Users/fairyliu/miniconda3/lib/python3.10/site-packages/absl/app.py", line 254, in _run_main
+    sys.exit(main(argv))
+  File "/Users/fairyliu/PycharmProjects/HN-LoRA1/examples/02_finetune_new_observation_action.py", line 60, in main
+    pretrained_model = OctoModel.load_pretrained(FLAGS.pretrained_path)
+  File "/Users/fairyliu/PycharmProjects/HN-LoRA1/octo/model/octo_model.py", line 278, in load_pretrained
+    if checkpoint_path.startswith("hf://"):
+AttributeError: 'NoneType' object has no attribute 'startswith'
