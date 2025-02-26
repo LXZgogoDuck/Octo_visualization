@@ -171,10 +171,23 @@ class OctoModel:
         action_attention_weights = {'mean': [], 'max': [], 'all': []}
         for i in range(12):
             # attention map shape: batch_size * head_num * token_num * token_num
-            # shape of w: batch_size * head_num * image_token_num (256) **** no!!!
+            # shape of w: batch_size * head_num * image_token_num (256)
             ##########################################################################################
             ########## shape of w: (H, #image_token_num) ############
-            w = attention_weights[f'encoderblock_{i}']['MultiHeadDotProductAttention_0']['attention_weights'][0][:, :, -1, -(1 + 16 + 256):-(1 + 16)]
+            attn_layer = attention_weights[f'encoderblock_{i}']['MultiHeadDotProductAttention_0']['attention_weights'][
+                0]
+
+            # Extract full attention map: shape (batch_size, num_heads, num_tokens, num_tokens)
+            w = attn_layer[:, :, -1, -(1 + 16 + 256):-(1 + 16)]  # Image token attention
+
+            # **Extract Attention Weights of Image Tokens Attending to Task Tokens**
+            task_token_count = 16  # Number of task tokens (adjust based on tokenizer)
+            image_token_start = -(1 + task_token_count + 256)  # Start index of image tokens
+            task_token_end = - (1 + 256)  # End index of task tokens
+
+            w_task_image = attn_layer[:, :, image_token_start:task_token_end, :task_token_count]
+            # Shape: (batch_size, num_heads, num_image_tokens, num_task_tokens)
+
             w_mean = w.mean(axis=1)
             w_max = w.max(axis=1)
             action_attention_weights['mean'].append(w_mean)
