@@ -1,7 +1,7 @@
 #!/bin/bash
 set -x
 
-TAG=zheng/hn_lora
+TAG=...
 # PARENT=nvidia/cuda:11.1-cudnn8-devel-ubuntu20.04
 # PARENT=nvidia/cuda:11.6.2-cudnn8-devel-ubuntu20.04
 PARENT=nvidia/cudagl:11.4.2-devel-ubuntu20.04

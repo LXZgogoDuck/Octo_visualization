@@ -1,5 +1,5 @@
 # Base Image
-ARG PARENT_IMAGE=nvidia/cudagl:11.4.2-devel-ubuntu20.04
+ARG PARENT_IMAGE
 FROM $PARENT_IMAGE
 
 # Args need to be below FROM!
@@ -53,6 +53,7 @@ RUN git clone https://github.com/simpler-env/SimplerEnv --recurse-submodules
 WORKDIR SimplerEnv
 # install dependencies
 RUN pip install tensorflow==2.15.0
+COPY requirements_full_install.txt ./
 RUN pip install -r requirements_full_install.txt
 RUN pip install tensorflow[and-cuda]==2.15.1
 RUN pip install git+https://github.com/nathanrooy/simulated-annealing
@@ -60,43 +61,32 @@ RUN pip install git+https://github.com/nathanrooy/simulated-annealing
 RUN pip install -e ./ManiSkill2_real2sim
 RUN pip install -e .
 
-# install gsutil to download OXE dataset
-# Add the Google Cloud SDK distribution URI as a package source
-RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-# Import the Google Cloud public key
-RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
-# Update and install the Google Cloud SDK (includes gsutil)
-RUN apt-get update && apt-get install -y google-cloud-sdk
-
 # https://github.com/haosulab/ManiSkill/issues/9
 COPY docker/nvidia_icd.json /usr/share/vulkan/icd.d/nvidia_icd.json
 COPY docker/nvidia_layers.json /etc/vulkan/implicit_layer.d/nvidia_layers.json
 ENV VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json
 
 # rlds converter
-WORKDIR /
-RUN git clone https://github.com/kpertsch/rlds_dataset_builder.git
-WORKDIR rlds_dataset_builder
-RUN conda env create -f environment_ubuntu.yml
+# WORKDIR /
+# RUN git clone https://github.com/kpertsch/rlds_dataset_builder.git
+# WORKDIR rlds_dataset_builder
+# RUN conda env create -f environment_ubuntu.yml
 
-# install Octo
+# install gsutil
+# Add the Google Cloud SDK distribution URI as a package source
+# RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+# # Import the Google Cloud public key
+# RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+# # Update and install the Google Cloud SDK (includes gsutil)
+# RUN apt-get update && apt-get install -y google-cloud-sdk
+
+# install our package
 RUN pip install --upgrade "jax[cuda11_pip]==0.4.20" -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
-COPY ./ /user/octo
-WORKDIR /user/octo
-RUN pip install -e .
-
-# install LIBERO
-WORKDIR /
-RUN git clone https://github.com/Lifelong-Robot-Learning/LIBERO.git
-WORKDIR LIBERO
-# COPY requirements.txt ./
-# RUN pip install -r requirements.txt
-RUN pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 torchaudio==0.11.0 --extra-index-url https://download.pytorch.org/whl/cu113
-RUN pip install robosuite==1.4.1 bddl easydict
+COPY ./ /user/hypervla
+WORKDIR /user/hypervla
 RUN pip install -e .
 
 # Change permissions
-WORKDIR /user/octo
 RUN groupadd -g ${GROUP_ID} user
 RUN useradd --shell /bin/bash -u ${USER_ID} -g ${GROUP_ID} -o -d /user user
 RUN chown -R user:user /user && chmod -R u+w /user
