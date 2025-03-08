@@ -1,13 +1,20 @@
 #!/bin/bash
-set -x
+set -x  # Enable debugging mode (shows each command before running)
 
-TAG=zheng/hn_lora
-# PARENT=nvidia/cuda:11.1-cudnn8-devel-ubuntu20.04
-# PARENT=nvidia/cuda:11.6.2-cudnn8-devel-ubuntu20.04
+# Set Docker image tag
+TAG=xuanzhuo/my_docker
+
+# Set parent image (CUDA version)
 PARENT=nvidia/cudagl:11.4.2-devel-ubuntu20.04
-USER_ID=`id -u`
-GROUP_ID=`id -g`
 
+# Ensure compatibility with Apple Silicon (M1/M2/M3) by forcing amd64
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
+
+# Get user and group ID for correct permissions
+USER_ID=$(id -u)
+GROUP_ID=$(id -g)
+
+# Run the Docker build command
 docker build -f docker/Dockerfile \
   --build-arg PARENT_IMAGE=${PARENT} \
   --build-arg USER_ID=${USER_ID} \

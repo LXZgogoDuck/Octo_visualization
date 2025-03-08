@@ -86,6 +86,27 @@ Another way to visualize CNN layers is to to visualize activations for a specifi
 	</tbody>
 </table>
 
-
-
 ---
+
+### obs 
+layer 9
+- head 10 focus on the desk edge constantly
+- h1: focus on the target object, and lastly both pot and grippers+object are given attention
+- h4 focuses on eggplant explicitly
+
+layer 10
+- head 10: at first gripper, eggplants are given attention, then attention switches from ep to pot.
+- h6 initially has spread attention over background info, and then focuses on pot.
+- h2, h5-8, h12 focuses explicitly on grippers
+
+layer 11
+- head 1 focuses on eggplant, at some internal images, attention given to background.
+- h2, 11, 12 focuses specifically on robot hands and sensors?
+- h8 has attention spread over background knowledge like desk edges
+- h9: objects are given most attention score
+
+
+- sudden change of attention focus in last step? e.g. L11 eggplants are given most attention at first, then grippers are given attention at last step suddenly; h4 at last focus sudden change to the drawer
+- (e.g. result1-ep3: failed) at 7-9 layers, specific attn is given to objects/grippers, but at last layers, some heads give attention to background/desk edges information
+- how to cope with the situation when language instructions are inconsistent with the image observation?
+- r1-ep5 in last layer, only one head focuses on cloth, other heads on irrelavant objects/background
