@@ -14,6 +14,11 @@
 - Scaled **attention tokens** to image size using OpenCV and SciPy.
 - Displayed **attention per layer & head** and saved outputs in `attention_results/`.
 
+## Docker installation
+1. Edit the docker name, i.e., the `TAG` variable in `docker/build_docker.sh`. It is usually in the format of `your_user_name/docker_name`.
+2. Under the root directory of the repo, run `bash docker/build_docker.sh`.
+3. Start the docker with command `docker run --gpus '"device=0"' --rm --network host --ipc=host --user $(id -u) -v source_folder_path:/user/hypervla -it docker_name /bin/bash`
+
 ## **Run the Code**
 
 See model/Test_visualization.ipynb file for visualization.
