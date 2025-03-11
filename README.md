@@ -115,3 +115,8 @@ layer 11
 - (e.g. result1-ep3: failed) at 7-9 layers, specific attn is given to objects/grippers, but at last layers, some heads give attention to background/desk edges information
 - how to cope with the situation when language instructions are inconsistent with the image observation?
 - r1-ep5 in last layer, only one head focuses on cloth, other heads on irrelavant objects/background
+
+
+Observation
+1. sharp attention at mid-depth layers (like 8–9) but then blurry, distracted attention at deeper layers 
+2. 
