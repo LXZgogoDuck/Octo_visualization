@@ -44,7 +44,7 @@ defusedxml
 descartes
 distrax==0.1.5
 dlib==19.24.6
-dlimp @ git+https://github.com/kvablack/dlimp.git@5edaa4691567873d495633f2708982b42edf1972
+dlimp @ git+https://github.com/kvablack/dlimp@d08da3852c149548aaa8551186d619d87375df08
 dm-env==1.6
 dm-tree
 dm_control==1.0.27
@@ -263,7 +263,6 @@ tensorflow==2.18.0
 tensorflow-datasets==4.9.7
 tensorflow-estimator==2.15.0
 tensorflow-io-gcs-filesystem==0.34.0
-tensorflow-macos==2.15.0
 tensorflow-metadata==1.16.1
 tensorflow-probability==0.25.0
 tensorstore==0.1.71
