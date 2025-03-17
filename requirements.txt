@@ -33,10 +33,6 @@ click-default-group==1.2.4
 cloudpickle==3.1.0
 colorlog==6.9.0
 comm
-conda
-conda-content-trust
-conda-package-handling
-conda_package_streaming
 contourpy
 cryptography
 cycler
