@@ -62,14 +62,14 @@ RUN pip install git+https://github.com/nathanrooy/simulated-annealing
 RUN pip install -e ./ManiSkill2_real2sim
 RUN pip install -e .
 
-# Install gsutil (Google Cloud SDK)
-# Add the Google Cloud SDK key and repository securely
-RUN curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
+# Install Google Cloud SDK (fixed key issue)
+RUN apt-get update && apt-get install -y curl apt-transport-https ca-certificates gnupg
+RUN curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | \
+    gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg
 RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" \
-    | tee /etc/apt/sources.list.d/google-cloud-sdk.list > /dev/null
-
-# Install Google Cloud SDK
+    > /etc/apt/sources.list.d/google-cloud-sdk.list
 RUN apt-get update && apt-get install -y google-cloud-sdk
+
 
 
 # Vulkan Config for ManiSkill
