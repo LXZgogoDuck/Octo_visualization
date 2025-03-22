@@ -54,6 +54,10 @@ WORKDIR SimplerEnv
 RUN pip install --upgrade pip
 RUN pip install tensorflow==2.15.0
 #RUN pip install -r requirements_full_install.txt
+
+COPY simpler_requirements.txt ./simpler_requirements.txt
+RUN pip install -r simpler_requirements.txt
+
 RUN pip install git+https://github.com/nathanrooy/simulated-annealing
 RUN pip install -e ./ManiSkill2_real2sim
 RUN pip install -e .
