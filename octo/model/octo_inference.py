@@ -113,7 +113,7 @@ class OctoInference:
         # pad_mask[:self.horizon - self.num_image_history] = 0
         return images, pad_mask
 
-     def reset(self, task_description: Optional[str] = None, goal_image: Optional[np.ndarray] = None) -> None:
+    def reset(self, task_description: Optional[str] = None, goal_image: Optional[np.ndarray] = None) -> None:
         self.image_history.clear()
         if self.action_ensemble:
             self.action_ensembler.reset()
@@ -130,8 +130,9 @@ class OctoInference:
         if goal_image is not None:
             resized_goal_image = self._resize_image(goal_image)
             goals = {"image_primary": np.expand_dims(resized_goal_image, axis=0)}  # (1, H, W, 3)
-        if task_description is not None:
-            texts = [task_description]
+      
+        texts = [task_description] if task_description is not None else None
+
 
         self.task = self.model.create_tasks(goals=goals, texts=texts)
         self.task_description = task_description
